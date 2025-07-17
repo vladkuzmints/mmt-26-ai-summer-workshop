@@ -69,7 +69,7 @@ const HolidayProfileQuiz = () => {
   };
   
   return (
-    <div className="mx-auto max-w-[450px]">
+    <div className="mx-auto max-w-[450px]" style={{margin: "auto"}}>
       {/* Logo Header */}
       <div className="text-center mb-6">
         <img 
