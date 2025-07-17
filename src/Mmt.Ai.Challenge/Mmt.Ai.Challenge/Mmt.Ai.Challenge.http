@@ -1,0 +1,6 @@
+@Mmt.Ai.Challenge_HostAddress = http://localhost:5189
+
+GET {{Mmt.Ai.Challenge_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
