@@ -46,7 +46,9 @@ a {
 .container {
   margin: auto;
   padding: 0 10px;
-  /* background: #fefae0; */
+  background: #f8f9fa;
+  /* left: 50%;
+  transform: translateX(50%); */
 }
 
 label {
