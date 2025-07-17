@@ -70,7 +70,14 @@ const HolidayProfileQuiz = () => {
   
   return (
     <div className="max-w-md mx-auto">
-      {/* Progress indicator */}
+      <div className="text-center mb-6">
+        <img 
+          src="/logo.png" 
+          alt="Holiday Planner Logo" 
+          className="mx-auto w-[250px] mb-2"
+        />
+      </div>
+      
       <div className="mb-6 px-4">
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600">Step {step + 1} of 5</span>
