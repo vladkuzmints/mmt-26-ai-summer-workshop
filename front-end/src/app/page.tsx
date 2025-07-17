@@ -69,15 +69,17 @@ const HolidayProfileQuiz = () => {
   };
   
   return (
-    <div className="max-w-md mx-auto">
+    <div className="mx-auto max-w-[450px]">
+      {/* Logo Header */}
       <div className="text-center mb-6">
         <img 
           src="/logo.png" 
           alt="Holiday Planner Logo" 
-          className="mx-auto w-[250px] mb-2"
+          className="mx-auto h-16 w-auto mb-2"
         />
       </div>
-      
+
+      {/* Progress indicator */}
       <div className="mb-6 px-4">
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600">Step {step + 1} of 5</span>
@@ -99,15 +101,15 @@ const HolidayProfileQuiz = () => {
 
       {/* Step content */}
       {step === 0 && (
-        <div>
+        <div className="bg-white rounded-xl shadow-lg p-8">
           <Chat 
             systemPrompt={getSystemPrompt()}
             title="Welcome! Let's Plan Your Holiday"
           />
-          <div className="mt-4 text-center">
+          <div className="mt-8 text-center">
             <button
               onClick={nextStep}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-lg font-medium"
             >
               Continue to Quiz
             </button>
@@ -116,18 +118,18 @@ const HolidayProfileQuiz = () => {
       )}
 
       {step === 1 && (
-        <div>
+        <div className="bg-white rounded-xl shadow-lg p-8">
           <Quiz />
-          <div className="mt-4 flex justify-between">
+          <div className="mt-8 flex justify-between">
             <button
               onClick={prevStep}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
             >
               Back
             </button>
             <button
               onClick={nextStep}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
             >
               Continue
             </button>
@@ -136,18 +138,18 @@ const HolidayProfileQuiz = () => {
       )}
 
       {step === 2 && (
-        <div>
+        <div className="bg-white rounded-xl shadow-lg p-8">
           <Swiper />
-          <div className="mt-4 flex justify-between">
+          <div className="mt-8 flex justify-between">
             <button
               onClick={prevStep}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
             >
               Back
             </button>
             <button
               onClick={nextStep}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
             >
               Continue
             </button>
@@ -156,25 +158,35 @@ const HolidayProfileQuiz = () => {
       )}
 
       {step === 3 && (
-        <div className="p-6 bg-white rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Review Your Profile</h2>
-          <div className="space-y-3 mb-6">
-            <p><strong>Budget:</strong> {profile.budget || "Not set"}</p>
-            <p><strong>Activity Level:</strong> {profile.activity || "Not set"}</p>
-            <p><strong>Climate:</strong> {profile.climate || "Not set"}</p>
-            <p><strong>Duration:</strong> {profile.duration || "Not set"}</p>
-            <p><strong>Interests:</strong> {profile.interests.join(", ") || "None selected"}</p>
+        <div className="p-8 bg-white rounded-xl shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Review Your Profile</h2>
+          <div className="space-y-6 mb-8">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg"><strong className="text-gray-700">Budget:</strong> <span className="text-gray-900">{profile.budget || "Not set"}</span></p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg"><strong className="text-gray-700">Activity Level:</strong> <span className="text-gray-900">{profile.activity || "Not set"}</span></p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg"><strong className="text-gray-700">Climate:</strong> <span className="text-gray-900">{profile.climate || "Not set"}</span></p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg"><strong className="text-gray-700">Duration:</strong> <span className="text-gray-900">{profile.duration || "Not set"}</span></p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-lg"><strong className="text-gray-700">Interests:</strong> <span className="text-gray-900">{profile.interests.join(", ") || "None selected"}</span></p>
+            </div>
           </div>
           <div className="flex justify-between">
             <button
               onClick={prevStep}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
             >
               Back
             </button>
             <button
               onClick={handleSubmit}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              className="px-8 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium text-lg"
             >
               Complete Profile
             </button>
@@ -183,15 +195,15 @@ const HolidayProfileQuiz = () => {
       )}
 
       {step === 4 && (
-        <div>
+        <div className="bg-white rounded-xl shadow-lg p-8">
           <Chat 
             systemPrompt={getSystemPrompt()}
             title="Your Personalized Holiday Recommendations"
           />
-          <div className="mt-4 text-center">
+          <div className="mt-8 text-center">
             <button
               onClick={reset}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-lg font-medium"
             >
               Start Over
             </button>

@@ -69,20 +69,6 @@ const Chat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[600px] w-full max-w-md mx-auto border rounded-lg shadow-lg bg-white">
-      {/* System Prompt Input */}
-      <div className="p-3 border-b bg-gray-50">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          System Prompt:
-        </label>
-        <input
-          className="w-full text-sm border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
-          type="text"
-          placeholder="Enter system prompt..."
-          value={systemPrompt}
-          onChange={(e) => setSystemPrompt(e.target.value)}
-        />
-      </div>
-
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map((msg, idx) => (
