@@ -1,44 +1,48 @@
-var builder = WebApplication.CreateBuilder(args);
+// Program.cs setup
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+using Mmt.Ai.Challenge.Services;
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-app.UseHttpsRedirection();
+        // Add services
+        builder.Services.AddHttpClient<IClaudeService, ClaudeService>();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+        var app = builder.Build();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+        // Configure pipeline
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
-app.Run();
+        // Minimal API endpoints
+        app.MapPost("/api/claude/chat", async (ClaudeRequest request, IClaudeService claudeService) =>
+            {
+                var response = await claudeService.GetResponseAsync(request);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            })
+            .WithName("ChatWithClaude")
+            .WithOpenApi();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        app.MapPost("/api/travel/recommend", async (string preferences, IClaudeService claudeService) =>
+            {
+                var response = await claudeService.GetTripRecommendationAsync(preferences);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            })
+            .WithName("GetTravelRecommendations")
+            .WithOpenApi();
+
+        app.MapGet("/api/health", () => Results.Ok(new { Status = "Healthy", Timestamp = DateTime.UtcNow }))
+            .WithName("HealthCheck")
+            .WithOpenApi();
+
+        app.Run();
+    }
 }
