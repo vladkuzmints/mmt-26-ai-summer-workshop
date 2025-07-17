@@ -1,6 +1,8 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 
+const ENDPOINT = 'http://localhost:5189/api/claude/chat';
+
 interface Message {
   sender: 'user' | 'bot';
   text: string;
@@ -9,6 +11,8 @@ interface Message {
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [systemPrompt, setSystemPrompt] = useState('You are a helpful AI assistant.');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,27 +20,70 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
+
     const userMessage: Message = { sender: 'user', text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    setIsLoading(true);
 
-    // Simulate AI bot response (replace with real API call)
-    setTimeout(() => {
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage.text,
+          systemPrompt: systemPrompt,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.text(); // Assuming the API returns plain text
+      
       const botMessage: Message = {
         sender: 'bot',
-        text: `AI Bot: You said "${userMessage.text}"`,
+        text: data,
       };
+      
       setMessages((prev) => [...prev, botMessage]);
-    }, 800);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage: Message = {
+        sender: 'bot',
+        text: 'Sorry, I encountered an error. Please try again.',
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') sendMessage();
+    if (e.key === 'Enter' && !isLoading) sendMessage();
   };
 
   return (
-    <div className="flex flex-col h-[500px] w-full max-w-md mx-auto border rounded-lg shadow-lg bg-white">
+    <div className="flex flex-col h-[600px] w-full max-w-md mx-auto border rounded-lg shadow-lg bg-white">
+      {/* System Prompt Input */}
+      <div className="p-3 border-b bg-gray-50">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          System Prompt:
+        </label>
+        <input
+          className="w-full text-sm border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
+          type="text"
+          placeholder="Enter system prompt..."
+          value={systemPrompt}
+          onChange={(e) => setSystemPrompt(e.target.value)}
+        />
+      </div>
+
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map((msg, idx) => (
           <div
@@ -54,8 +101,24 @@ const Chat: React.FC = () => {
             </div>
           </div>
         ))}
+        
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg rounded-bl-none">
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Input */}
       <div className="p-4 border-t flex gap-2">
         <input
           className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -64,12 +127,18 @@ const Chat: React.FC = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          disabled={isLoading}
         />
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+          className={`px-4 py-2 rounded transition ${
+            isLoading
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600'
+          } text-white`}
           onClick={sendMessage}
+          disabled={isLoading}
         >
-          Send
+          {isLoading ? 'Sending...' : 'Send'}
         </button>
       </div>
     </div>
