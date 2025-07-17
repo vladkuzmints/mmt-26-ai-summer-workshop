@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { User, ArrowRight } from "lucide-react";
-import Chat from "./components/Chat";
 
 const HolidayProfileQuiz = () => {
   const [profile, setProfile] = useState({
@@ -101,7 +100,6 @@ const HolidayProfileQuiz = () => {
 
   return (
     <>
-      <Chat />
       <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
         <div className="text-center mb-6">
           <User className="mx-auto mb-2 text-blue-500" size={48} />
