@@ -3,8 +3,12 @@
 import { useState } from "react";
 import { User, ArrowRight } from "lucide-react";
 import Chat from './components/Chat';
+import Swiper from './components/Swiper';
 
 const HolidayProfileQuiz = () => {
+
+  const [step, setStep] = useState(1);
+
   const [profile, setProfile] = useState({
     budget: "",
     activity: "",
@@ -103,7 +107,22 @@ const HolidayProfileQuiz = () => {
   return (
 
     <>
-      <Chat/>
+      {step === 0 && (
+        <Chat/>
+      )}
+
+      {step === 1 && (
+        <Swiper/>
+      )}
+
+      {step === 2 && (
+        <Chat/>
+      )}
+
+       {step === 4 && (
+        <Chat/>
+      )}
+
       <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
         <div className="text-center mb-6">
           <User className="mx-auto mb-2 text-blue-500" size={48} />
