@@ -42,3 +42,15 @@ a {
     color-scheme: dark;
   }
 }
+
+.container {
+  margin: auto;
+  padding: 0 10px;
+  /* background: #fefae0; */
+}
+
+label {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}

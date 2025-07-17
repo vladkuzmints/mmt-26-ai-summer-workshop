@@ -41,12 +41,10 @@ const HolidayProfileQuiz = () => {
 
   if (isSubmitted) {
     return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg container">
         <div className="text-center mb-6">
           <div className="text-6xl mb-4">✅</div>
-          <h2 className="text-2xl font-bold text-gray-800">
-            Profile Complete!
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-800">Good choice!</h2>
           <p className="text-gray-600 mt-2">Here's what you selected:</p>
         </div>
 
@@ -99,22 +97,22 @@ const HolidayProfileQuiz = () => {
   }
 
   return (
-    <>
-      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <div className="container">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg container">
         <div className="text-center mb-6">
           <User className="mx-auto mb-2 text-blue-500" size={48} />
           <h1 className="text-2xl font-bold text-gray-800">
-            Your Holiday Profile
+            Your Dream Holiday
           </h1>
           <p className="text-gray-600">
-            Tell us your preferences for personalized recommendations
+            Sit back and think about what you really want
           </p>
         </div>
 
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Budget Level
+              What's your budget?
             </label>
             <div className="grid grid-cols-3 gap-2">
               {["low", "medium", "high"].map((budget) => (
@@ -138,7 +136,7 @@ const HolidayProfileQuiz = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Activity Level
+              How active do you want to be?
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
@@ -195,7 +193,7 @@ const HolidayProfileQuiz = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Trip Duration
+              How much time do you have?
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
@@ -273,7 +271,7 @@ const HolidayProfileQuiz = () => {
           sections completed
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
